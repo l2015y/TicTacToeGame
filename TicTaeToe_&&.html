@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <title>CrestikiNoliki</title>
+    <style>
+        body{background-image: url("paper-original.jpg")}
+        .PlayingArea{
+            position: relative;
+            width: 360px;
+            height: 432px;
+            margin-top: 100px;
+            margin-bottom: 100px;
+            margin-left: 700px;
+            margin-right: 450px;
+            text-align: center;
+            font: 400 30px/1.5 "Pacifico", Helvrtica, sans-serif;
+            cursor: pointer;
+        }
+        .button{
+            position: absolute;
+            bottom: 50px;
+            right: 200px;
+        }
+        .invisible{
+            visibility: hidden;
+        }
+        .cell{
+            width:100px;
+            hight:100px;
+            border: inset;
+            border: solid;
+        }
+        .borderLeft{
+            border-left:none;
+        }
+        .borderRight{
+            border-right: none;
+        }
+        .borderTop{
+            border-top: none;
+        }
+        .borderBottom{
+            border-bottom: none;
+        }
+
+    </style>
+</head>
+<body>
+<form>
+    <input type="button" class="button" id="newGame" value="New game">
+    <table class="PlayingArea"  valign="middle" cellspacing="0" width="100%" height="100%">
+        <tr align="center">
+            <td id="1" width="120 px" class="cell borderLeft borderTop"></td>
+            <td id="2" width="120 px" class="cell borderTop"></td>
+            <td id="3" width="120 px" class="cell borderRight borderTop"></td>
+        </tr>
+        <tr align="center">
+            <td id="4" width="120 px" class="cell borderLeft"></td>
+            <td id="5" width="120 px" class="cell"></td>
+            <td id="6" width="120 px" class="cell borderRight"></td>
+        </tr>
+        <tr align="center">
+            <td id="7" width="120 px" class="cell borderLeft borderBottom"></td>
+            <td id="8" width="120 px" class="cell borderBottom"></td>
+            <td id="9" width="120 px" class="cell borderRight borderBottom"></td>
+        </tr>
+    </table>
+</form>
+<script>
+    var turnCount = 0;
+    $("td").click(function () {
+        if ($(this).text() !== ""){
+            return;
+        }
+        if (turnCount % 2 === 0) {
+            $(this).text("X");
+            checkWinner("X");
+        } else {
+            $(this).text("O");
+            checkWinner("O");
+        }
+        turnCount++;
+    });
+
+    function checkWinner(player) {
+        checkWinnerLine(player, "#1", "#2", "#3");
+        checkWinnerLine(player, "#4", "#5", "#6");
+        checkWinnerLine(player, "#7", "#8", "#9");
+        checkWinnerLine(player, "#1", "#4", "#7");
+        checkWinnerLine(player, "#2", "#5", "#8");
+        checkWinnerLine(player, "#3", "#6", "#9");
+        checkWinnerLine(player, "#1", "#5", "#9");
+        checkWinnerLine(player, "#3", "#5", "#7");
+    }
+
+    function checkWinnerLine(player, tdId1, tdId2, tdId3) {
+        if ($(tdId1).text() !== "") {
+            if ($(tdId1).text() == $(tdId2).text()) {
+                if ($(tdId1).text() == $(tdId3).text()) {
+                    alert("Game over! " + player + " is the winner!");
+                }
+            }
+        }
+    }
+
+    $("#newGame").click(function () {
+        $("td").empty();
+    })
+</script>
+</body>
+</html>
